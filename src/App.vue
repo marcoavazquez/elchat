@@ -20,7 +20,8 @@ export default {
 }
 
 body {
-  background:  #789;
+  background: linear-gradient(90deg, rgba(#0A6675, 0.5), rgba(#6FC071, 0.5), rgba(#DAE36F, 0.5), rgba(#6FC071, 0.5)),
+              linear-gradient(-45deg, rgba(#0A6675, 0.9), rgba(#6FC071, 0.9), rgba(#DAE36F, 0.9), rgba(#FEFEFE, 0.9), rgba(#DAE36F, 0.9), rgba(#6FC071, 0.9));
   background-size: 100% 100vh;
   color: #333;
 
@@ -37,12 +38,11 @@ body {
 
 .window {
   box-shadow: 0 0.1em 2em rgba(0,0,0,0.3);
-  border: 1px solid gray;
-  border-top: 1px solid rgb(166, 197, 243);
+  border: 1px solid #94C4D6;
   border-radius: 0.5em;
 
   &__title {
-    color: #333;
+    color: #666;
     padding: 0.3em 0.5em;
   }
 }

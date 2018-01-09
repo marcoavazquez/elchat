@@ -21,7 +21,7 @@
             <input type="password" name="password" v-model="password" required>
           </div>
           <div class="window__login__form__group window__login__form__group--options">
-            <label for="options">Entrar como:</label>
+            <label for="options">Login as:</label>
             <select name="options" id="" v-model="loginAs">
               <option value="online">OnLine</option>
               <option value="busy">Busy</option>
