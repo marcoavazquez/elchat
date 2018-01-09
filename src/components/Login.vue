@@ -54,6 +54,13 @@ export default {
       isLogin: false
     }
   },
+  mounted () {
+    let user = firebase.auth().currentUser
+    console.log(user)
+    if (user) {
+      this.$router.push('/')
+    }
+  },
   methods: {
     login () {
       if (!this.signup()) {

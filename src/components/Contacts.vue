@@ -10,7 +10,20 @@
 </template>
 
 <script>
-export default { }
+
+import firebase from 'firebase/app'
+import 'firebase/database'
+import 'firebase/auth'
+
+export default {
+  mounted () {
+    let user = firebase.auth().currentUser
+    console.log(user)
+    if (!user) {
+      this.$router.push('login')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
