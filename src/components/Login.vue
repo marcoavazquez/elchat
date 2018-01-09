@@ -45,12 +45,10 @@ import 'firebase/auth'
 export default {
   data () {
     return {
-      avatar: 'https://scontent-sea1-1.cdninstagram.com/t51.2885-15/s480x480/e35/' +
-            'c91.0.898.898/12230855_192829161056866_474209831_n.jpg?ig_cache_key=' +
-            'MTEyNzA5NzQyMjQ4NzI5NzE2MA%3D%3D.2.c',
+      avatar: 'https://firebase.google.com/_static/images/firebase/touchicon-180.png',
       email: null,
       password: null,
-      loginAs: null,
+      loginAs: 'online',
       isLogin: false
     }
   },
@@ -181,29 +179,8 @@ export default {
           }
         }
       }
-
     }
   }
-}
-
-.options {
-  display: flex;
-  padding: 1em 3em;
-  label {
-    padding-right: 1em;
-  }
-  select {
-    background: transparent;
-    border: none;
-    color: #444;
-  }
-
-}
-button {
-  line-height: 1.6em;
-  display: block;
-  margin: 0 auto;
-  padding: 0 2em;
 }
 
 </style>
