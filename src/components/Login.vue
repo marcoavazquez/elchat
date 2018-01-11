@@ -46,16 +46,16 @@ export default {
   data () {
     return {
       avatar: 'https://firebase.google.com/_static/images/firebase/touchicon-180.png',
+      user: this.$store.state.user,
       email: null,
       password: null,
-      loginAs: 'online',
-      isLogin: false
+      loginAs: 'online'
     }
   },
   mounted () {
-    let user = firebase.auth().currentUser
-    console.log(user)
-    if (user) {
+    console.log('state', this.$store.state.user.firebaseUser)
+    console.log('-->', this.$store.getters['user/isLogin'])
+    if (this.$store.getters['user/isLogin']) {
       this.$router.push('/')
     }
   },
@@ -174,7 +174,9 @@ export default {
           padding: 1em 0;
           text-align: center;
           input {
-            padding: 0.1em 1em;
+            background: linear-gradient(0deg, #DDD, white);
+            border: 1px solid gray;
+            padding: 0.2em 1em;
             display: inline-block;
           }
         }
