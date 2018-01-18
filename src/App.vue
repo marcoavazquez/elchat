@@ -6,11 +6,11 @@
 
 <script>
 
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/database'
+// import firebase from 'firebase/app'
+// import 'firebase/auth'
+// import 'firebase/database'
 
-firebase.initializeApp(process.firebase)
+// firebase.initializeApp(process.firebase)
 
 export default {
   name: 'app'
@@ -46,7 +46,7 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
 
-  padding: 1em;
+  padding: 2em;
 
 }
 

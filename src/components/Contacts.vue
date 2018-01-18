@@ -11,16 +11,10 @@
 
 <script>
 
-import firebase from 'firebase/app'
-import 'firebase/database'
-import 'firebase/auth'
-
 export default {
   mounted () {
-    let user = firebase.auth().currentUser
-    console.log(user)
-    if (!user) {
-      this.$router.push('login')
+    if (!this.$store.getters['user/getUser'] === null) {
+      this.$router.push('/login')
     }
   }
 }

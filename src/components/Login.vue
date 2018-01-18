@@ -28,6 +28,12 @@
               <option value="invisible">Invisible</option>
             </select>
           </div>
+          <div class="window__login__form__group">
+            <label>
+              <input v-model="newUser" type="checkbox" name="newUser">
+              New User?
+            </label>
+          </div>
           <div class="window__login__form__group window__login__form__group--submit">
             <input type="submit" value="Sign In">
           </div>
@@ -38,9 +44,6 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/database'
-import 'firebase/auth'
 
 export default {
   data () {
@@ -49,58 +52,27 @@ export default {
       user: this.$store.state.user,
       email: null,
       password: null,
-      loginAs: 'online'
+      loginAs: 'online',
+      newUser: false
     }
   },
   mounted () {
     console.log('state', this.$store.state.user.firebaseUser)
-    console.log('-->', this.$store.getters['user/isLogin'])
-    if (this.$store.getters['user/isLogin']) {
+    console.log('-->', this.$store.getters['user/getUser'])
+    if (this.$store.getters['user/getUser'] !== null) {
       this.$router.push('/')
     }
   },
   methods: {
     login () {
-      if (!this.signup()) {
-        this.signin()
+      if (this.newUser) {
+        this.$store.dispatch('user/signup', {email: this.email, password: this.password})
+      } else {
+        this.$store.dispatch('user/signin', {email: this.email, password: this.password})
       }
-    },
-    signin () {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          this.$router.push('/')
-        })
-        .catch(error => {
-          console.error('Error Code', error.code)
-          console.error('Error Message', error.message)
-
-          if (error.code === 'auth/user-disabled') {
-            alert('user disabled')
-          }
-          if (error.code === 'auth/wrong-password') {
-            alert('wrong password')
-          }
-        })
-    },
-    signup () {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          this.$router.push('/')
-        })
-        .catch(error => {
-          console.error('Error Code', error.code)
-          console.error('Error Message', error.message)
-
-          if (error.code === 'auth/email-already-use') {
-            return false
-          }
-          if (error.code === 'auth/invalid-email') {
-            alert('invalid email')
-          }
-          if (error.code === 'auth/weak-password') {
-            alert('weak password')
-          }
-        })
+      if (this.$store.getters['user/getUser'] !== null) {
+        this.$router.push('/')
+      }
     }
   }
 }
@@ -111,7 +83,7 @@ export default {
 .login {
   background: linear-gradient(0deg, #EBF6F8 85%, #CBE9EB, #94C4D6);
   width: 28em;
-  height: 95vh;
+  height: 90vh;
 }
 .window {
   &__header {
@@ -156,6 +128,11 @@ export default {
           line-height: 1.6em;
           padding: 0 0.5em;
           width: 100%;
+        }
+        input[type='checkbox'] {
+          display: inline-block;
+          border: 1px solid gray;
+          background: red;
         }
 
         &--options {

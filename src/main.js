@@ -4,8 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import { store } from './store/store'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
 
 Vue.config.productionTip = false
+firebase.initializeApp(process.firebase)
 
 /* eslint-disable no-new */
 new Vue({
@@ -13,5 +17,13 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  created () {
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if (firebaseUser) {
+        console.log('from Created in main.js', firebaseUser)
+        this.$store.dispatch('user/autoSignIn', firebaseUser)
+      }
+    })
+  }
 })
