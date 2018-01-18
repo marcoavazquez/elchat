@@ -65,4 +65,30 @@ body {
   }
 }
 
+.avatar {
+  background:  
+    radial-gradient(circle at top, rgba(white, 0.2) 60%, rgba(#AAA, 0.1) 60%),
+    linear-gradient(transparent, #A4D0E6);
+  
+  box-shadow: 0 0 0 0.1em rgba(0,0,0,0.1),
+              0 0.1em 0.5em rgba(0,0,0,0.3);
+  border-radius: 1em 1em;
+  line-height: 0;
+
+  position: relative;
+
+  padding: 0.5em;
+  width: 9.5em;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0.5em rgba(0,0,0,0.3);
+  }
+  img {
+    width: 100%;
+    border:1px solid #AAA;
+    border-radius: 0.3em;
+  }
+}
+
 </style>

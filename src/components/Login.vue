@@ -5,7 +5,7 @@
         another mesenger
       </div>
       <div class="window__header">
-        <div class="window__header__cont-avatar">
+        <div class="window__header__cont-avatar avatar">
           <img :src="avatar" alt="" class="window__header__avatar">
         </div>   
       </div>
@@ -89,29 +89,8 @@ export default {
   &__header {
     padding: 2em 1em;
     &__cont-avatar {
-      background:  
-        radial-gradient(circle at top, rgba(white, 0.2) 60%, rgba(#AAA, 0.1) 60%),
-        linear-gradient(transparent, #A4D0E6);
-      
-      box-shadow: 0 0 0 0.1em rgba(0,0,0,0.1);
-      border-radius: 1em 1em;
-      line-height: 0;
-
-      position: relative;
-
-      margin: 0 auto;
-      padding: 0.5em;
       width: 9.5em;
-
-      &:hover {
-        cursor: pointer;
-        box-shadow: 0 0 0.5em rgba(0,0,0,0.3);
-      }
-    }
-    &__avatar {
-      width: 100%;
-      border:1px solid #AAA;
-      border-radius: 0.3em;
+      margin: 0 auto;
     }
   }
   &__login {
