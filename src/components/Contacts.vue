@@ -8,19 +8,19 @@
         </div>
         <div class="window__header__info">
           <div class="window__header__info__name">
-            <span contenteditable="true">
-              Marco Antonio
+            <span contenteditable="true" v-text="name" data-field="name" 
+                  @blur="updateInfo($event)">
             </span>
           </div>
-          <div class="window__header__info__status" contenteditable="true">
-            2b || !2b
+          <div class="window__header__info__status" contenteditable="true" v-text="status" 
+               @blur="updateInfo($event)" data-field="status">
           </div>
         </div>
       </div>
       <div class="window__search">
         <div class="window__search__item window__search__item--input">
           <input type="search" class="window__search__item__input" 
-                 placeholder="search contact...">
+                 placeholder="search contact..." v-model="search">
         </div>
         <div class="window__search__item">
           <span class="windos__search__item__order"></span>
@@ -30,23 +30,24 @@
         <div class="window__contacts__group">
           <div class="window__contacts__group__title">
             <span></span>
-            Online(10)
+            Online({{ contactsCount }})
           </div>
-          <div class="window__contacts__group__contact">
+
+          <div class="window__contacts__group__contact" v-for="contact in contacts">
             <div class="window__contacts__group__contact__icon">
-                  <img src="../assets/icon.svg">
+              <img src="../assets/icon.svg">
             </div>
             <div class="window__contacts__group__contact__name">
-              Someone who is not accountant - 
+              {{ contact.name }} - &nbsp;
             </div>
             <div class="window__contacts__group__contact__status">
-              The most beautiful girl in the world
+              {{contact.status}}
             </div>            
           </div>
         </div>
         <div class="window__contacts__group">
           <div class="window__contacts__group__title">
-            <span>v</span>
+            <span></span>
             Offline(210)
           </div>
         </div>
@@ -56,16 +57,58 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/database'
+import 'firebase/auth'
 
 export default {
   data () {
     return {
-      avatar: 'https://firebase.google.com/_static/images/firebase/touchicon-180.png'
+      avatar: 'https://firebase.google.com/_static/images/firebase/touchicon-180.png',
+      user: null,
+      name: null,
+      status: null,
+      profile: null,
+      search: null,
+      contacts: [],
+      contactsCount: 0
     }
   },
   mounted () {
-    if (!this.$store.getters['user/getUser'] === null) {
+    this.user = this.$store.getters['user/getUser']
+    if (this.user === null) {
       this.$router.push('/login')
+    } else {
+      firebase.database().ref('/contacts').on('value', snapshot => {
+        this.loadContacts(snapshot.val())
+        this.contactsCount = this.contacts.length
+      })
+    }
+  },
+  methods: {
+    updateInfo (event) {
+      if (event.target.dataset.field === 'name') {
+        this.name = event.target.innerHTML
+      }
+      if (event.target.dataset.field === 'status') {
+        this.status = event.target.innerHTML
+      }
+      this.$store.dispatch('user/updateInfo', {name: this.name, status: this.status})
+    },
+    loadContacts (contacts) {
+      this.contacts = []
+      for (let key in contacts) {
+        if (this.user.uid === key) {
+          this.loadInfo(contacts[key])
+        }
+        this.contacts.push(contacts[key])
+      }
+    },
+    loadInfo (contact) {
+      this.$store.dispatch('user/showProfile', contact)
+      this.profile = contact
+      this.name = this.profile.name
+      this.status = this.profile.status
     }
   }
 }
