@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <div class="contacts window">
       <div class="window__title"></div>
       <div class="window__header">
@@ -37,7 +37,7 @@
             <div class="window__contacts__group__contact__icon">
               <img src="../assets/icon.svg">
             </div>
-            <div class="window__contacts__group__contact__name">
+            <div class="window__contacts__group__contact__name" @click="openChat(contact)">
               {{ contact.name }} - &nbsp;
             </div>
             <div class="window__contacts__group__contact__status">
@@ -53,6 +53,9 @@
         </div>
       </div>
     </div>
+
+    <chat></chat>
+
   </div>
 </template>
 
@@ -60,6 +63,7 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/auth'
+import chat from './Chat.vue'
 
 export default {
   data () {
@@ -73,6 +77,9 @@ export default {
       contacts: [],
       contactsCount: 0
     }
+  },
+  components: {
+    chat
   },
   mounted () {
     this.user = this.$store.getters['user/getUser']
@@ -101,6 +108,7 @@ export default {
         if (this.user.uid === key) {
           this.loadInfo(contacts[key])
         }
+        contacts[key].key = key
         this.contacts.push(contacts[key])
       }
     },
@@ -109,12 +117,27 @@ export default {
       this.profile = contact
       this.name = this.profile.name
       this.status = this.profile.status
+    },
+    openChat (contact) {
+      this.$store.dispatch('chat/loadChatWith', contact)
+      this.$store.dispatch('chat/togglePrivateChat', true)
+      this.$store.dispatch('chat/loadPrivateMessages', {
+        userId: this.user.uid,
+        toUserId: contact.key,
+        callback: function () {
+          console.log(':(')
+        }
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  .main {
+    display: flex;
+    justify-content: space-between;
+  }
   .contacts {
     background: linear-gradient(0deg, #EBF6F8 60%, #CBE9EB, #94C4D6);
     width: 32em;

@@ -5,13 +5,6 @@
 </template>
 
 <script>
-
-// import firebase from 'firebase/app'
-// import 'firebase/auth'
-// import 'firebase/database'
-
-// firebase.initializeApp(process.firebase)
-
 export default {
   name: 'app'
 }
@@ -28,18 +21,18 @@ export default {
 body {
   background: linear-gradient(
                 90deg, 
-                rgba(#0A6675, 0.5), 
-                rgba(#6FC071, 0.5), 
-                rgba(#DAE36F, 0.5), 
-                rgba(#6FC071, 0.5)),
+                rgba(#f5820c, 0.5), 
+                rgba(#ffa610, 0.5), 
+                rgba(#ffcb2d, 0.5), 
+                rgba(#ffa610, 0.5)),
               linear-gradient(
                 -45deg, 
-                rgba(#0A6675, 0.9), 
-                rgba(#6FC071, 0.9), 
-                rgba(#DAE36F, 0.9), 
-                rgba(#FEFEFE, 0.9), 
-                rgba(#DAE36F, 0.9), 
-                rgba(#6FC071, 0.9));
+                rgba(#f5820c, 0.9), 
+                rgba(#ffa610, 0.9), 
+                rgba(#ffcb2d, 0.9), 
+                rgba(orange, 0.9), 
+                rgba(#ffcb2d, 0.9), 
+                rgba(#ffa610, 0.9));
   background-size: 100% 100vh;
   color: #333;
 
@@ -51,7 +44,7 @@ body {
 }
 
 .app {
-  display: flex;
+  //display: flex;
 }
 
 .window {
@@ -79,6 +72,7 @@ body {
 
   padding: 0.5em;
   width: 9.5em;
+  height: 9.5em;
 
   &:hover {
     cursor: pointer;

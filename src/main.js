@@ -21,7 +21,6 @@ new Vue({
   created () {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if (firebaseUser) {
-        console.log('from Created in main.js', firebaseUser)
         this.$store.dispatch('user/autoSignIn', firebaseUser)
       }
     })

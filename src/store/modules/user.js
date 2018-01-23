@@ -16,7 +16,6 @@ export default {
   },
   getters: {
     isLogin (state, getters, rootState) {
-      console.log('from User.js', state.user)
       return state.user !== null
     },
     getUser (state, getters, rootState) {
@@ -66,6 +65,7 @@ export default {
   actions: {
     showProfile ({commit}, payload) {
       commit('setProfile', payload)
+      console.log('showprofile', payload)
     },
     updateInfo ({commit}, payload) {
       commit('updateProfile', payload)

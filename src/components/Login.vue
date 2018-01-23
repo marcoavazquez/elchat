@@ -53,12 +53,11 @@ export default {
       email: null,
       password: null,
       loginAs: 'online',
-      newUser: false
+      newUser: false,
+      chatWith: null
     }
   },
   mounted () {
-    console.log('state', this.$store.state.user.firebaseUser)
-    console.log('-->', this.$store.getters['user/getUser'])
     if (this.$store.getters['user/getUser'] !== null) {
       this.$router.push('/')
     }
