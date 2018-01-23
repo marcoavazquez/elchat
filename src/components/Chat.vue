@@ -79,9 +79,6 @@ export default {
       }
       this.$store.dispatch(action, payload).then(() => {
         this.message = null
-        if (this.isPrivate) {
-          this.loadMessages()
-        }
       })
     },
     loadMessages () {
@@ -130,9 +127,12 @@ export default {
   },
   watch: {
     isPrivate () {
-      console.log('wachando', this.isPrivate)
       if (this.isPrivate) {
-        this.loadMessages()
+        this.$store.dispatch('chat/loadPrivateMessages', {
+          userId: this.user.uid,
+          toUserId: this.$store.getters['chat/getChatWith'].key,
+          callback: this.loadMessages
+        })
       }
     }
   }
