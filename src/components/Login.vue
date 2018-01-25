@@ -2,7 +2,6 @@
   <div>
     <div class="login window">
       <div class="window__title">
-        another mesenger
       </div>
       <div class="window__header">
         <div class="window__header__cont-avatar avatar">

@@ -3,13 +3,10 @@
     <div class="window chat">
       <div class="window__titlle"></div>
       <div class="window__header chat__header">
-        <ul class="chat__header__tabs">
-          <li class="chat__header__tabs__tab"
-              :class="{'chat__header__tabs__tab--active': !isPrivate}"
-              @click="startPublicChat">All</li>
-          <li class="chat__header__tabs__tab" v-text="chatWith"
-             :class="{'chat__header__tabs__tab--active': isPrivate}"></li>
-        </ul>
+        <div class="chat__header__title">
+          You are talking with: 
+          <span v-text="chatWith"></span>
+        </div>
       </div>
       <div class="chat__body">
         <div class="chat__chat">
@@ -84,6 +81,7 @@ export default {
     loadMessages () {
       this.setMessages().then(() => {
         this.scrollToBottom('#messages')
+        console.log('loaded')
       })
     },
     setMessages () {
@@ -107,31 +105,39 @@ export default {
       return new Date(date).toDateString()
     },
     scrollToBottom (selector) {
-      let elem = document.querySelector(selector)
-      elem.scrollTop = elem.scrollHeight
+      setTimeout(() => {
+        let elem = document.querySelector(selector)
+        elem.scrollTop = elem.scrollHeight
+      }, 100)
     },
     startPublicChat () {
       this.$store.dispatch('chat/togglePrivateChat', false)
-      this.loadMessages()
+      this.$store.dispatch('chat/loadMessages', () => {
+        this.loadMessages()
+      })
     }
   },
   computed: {
     chatWith () {
       return this.$store.getters['chat/getChatWith']
         ? this.$store.getters['chat/getChatWith'].name
-        : '...'
+        : 'Everyone'
     },
     isPrivate () {
       return this.$store.getters['chat/getIsPrivate']
     }
   },
   watch: {
-    isPrivate () {
+    chatWith () {
       if (this.isPrivate) {
         this.$store.dispatch('chat/loadPrivateMessages', {
           userId: this.user.uid,
           toUserId: this.$store.getters['chat/getChatWith'].key,
           callback: this.loadMessages
+        })
+      } else {
+        this.$store.dispatch('chat/loadMessages', () => {
+          this.loadMessages()
         })
       }
     }
@@ -145,23 +151,11 @@ export default {
   width: 52em;
 
   &__header {
-    padding: 0.5em 0.5em 0 0.5em;
-    &__tabs {
-      display: flex;
-      &__tab {
-        list-style: none;
-        font-size: 0.8em;
+    &__title {
+      color: #666;
+      padding: 0.6em 0.5em;
+      span {
         font-weight: bold;
-        color: #789;
-        border-radius: 0.5em 0.5em 0 0;
-        border: 1px solid #CCC;
-        border-bottom: none;
-        padding: 0.5em 1em;
-        cursor: pointer;
-        &--active {
-          background: white;
-          cursor: initial;
-        }
       }
     }
   }

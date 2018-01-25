@@ -32,12 +32,27 @@
             <span></span>
             Online({{ contactsCount }})
           </div>
-
-          <div class="window__contacts__group__contact" v-for="contact in contacts">
+          
+          <div class="window__contacts__group__contact" @click="openChat(null)" 
+               :class="{'window__contacts__group__contact--active' : chatWithAll }">
             <div class="window__contacts__group__contact__icon">
               <img src="../assets/icon.svg">
             </div>
-            <div class="window__contacts__group__contact__name" @click="openChat(contact)">
+            <div class="window__contacts__group__contact__name">
+              Chat with everibody - &nbsp;
+            </div>
+            <div class="window__contacts__group__contact__status">
+              with everyone
+            </div>            
+          </div>
+
+          <div class="window__contacts__group__contact" v-for="contact in contacts" 
+               @click="openChat(contact)" 
+               :class="{'window__contacts__group__contact--active' : isActive(contact) }">
+            <div class="window__contacts__group__contact__icon">
+              <img src="../assets/icon.svg">
+            </div>
+            <div class="window__contacts__group__contact__name">
               {{ contact.name }} - &nbsp;
             </div>
             <div class="window__contacts__group__contact__status">
@@ -75,7 +90,9 @@ export default {
       profile: null,
       search: null,
       contacts: [],
-      contactsCount: 0
+      contactsCount: 0,
+      chatWith: null,
+      chatWithAll: false
     }
   },
   components: {
@@ -119,15 +136,23 @@ export default {
       this.status = this.profile.status
     },
     openChat (contact) {
-      this.$store.dispatch('chat/loadChatWith', contact)
-      this.$store.dispatch('chat/togglePrivateChat', true)
-      this.$store.dispatch('chat/loadPrivateMessages', {
-        userId: this.user.uid,
-        toUserId: contact.key,
-        callback: function () {
-          console.log(':(')
-        }
-      })
+      if (contact !== null) {
+        this.chatWithAll = false
+        this.chatWith = contact
+        this.$store.dispatch('chat/loadChatWith', contact)
+        this.$store.dispatch('chat/togglePrivateChat', true)
+      } else {
+        this.chatWithAll = true
+        this.chatWith = null
+        this.$store.dispatch('chat/loadChatWith', null)
+        this.$store.dispatch('chat/togglePrivateChat', false)
+      }
+    },
+    isActive (contact) {
+      if (this.chatWith !== null) {
+        return contact.key === this.chatWith.key
+      }
+      return false
     }
   }
 }
@@ -201,6 +226,7 @@ export default {
         &__contact {
           padding: 0.25em 0;
           display: flex;
+          cursor: pointer;
           &__icon {
             width: 1.5em;
             fill: green;
@@ -217,6 +243,14 @@ export default {
             color: #888;
             white-space: nowrap;
             overflow: hidden;
+          }
+
+          &--active {
+            border: 1px solid orange;
+            border-radius: 0.3em;
+            background: rgba(orange, 0.1);
+            padding: 0.1em;
+            cursor: initial;
           }
         }
       }
