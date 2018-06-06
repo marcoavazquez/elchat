@@ -11,7 +11,7 @@ import 'firebase/database'
 Vue.config.productionTip = false
 firebase.initializeApp(process.firebase)
 
-/* eslint-disable no-new */
+/* eslint-disable no-new | d */
 new Vue({
   el: '#app',
   router,
